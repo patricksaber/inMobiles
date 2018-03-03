@@ -14,21 +14,21 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mlayoutManager;
-    private ArrayList<String> mProducts;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<String> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
 
-        mlayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mlayoutManager);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
@@ -37,21 +37,20 @@ public class MainActivity extends AppCompatActivity {
 
         Api api = retrofit.create(Api.class);
 
-        Call<List<Product>> call = api.getProducts();
+        Call<List<Item>> call = api.getProducts();
 
-        call.enqueue(new Callback<List<Product>>() {
+        call.enqueue(new Callback<List<Item>>() {
 
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                List<Product> products = response.body();
-                mAdapter = new MyAdapter(products);
-                mRecyclerView.setAdapter(mAdapter);
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                List<Item> products = response.body();
+                adapter = new Adapter(products);
+                recyclerView.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "noooooooooo", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
     }

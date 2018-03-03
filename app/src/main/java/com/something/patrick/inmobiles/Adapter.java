@@ -1,26 +1,32 @@
 package com.something.patrick.inmobiles;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 /**
  * Created by patrick on 3/2/2018.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private List<Product> mProducts;
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+    private List<Item> items;
+    Context context;
 
-    public MyAdapter(List<Product> mProducts) {
-        this.mProducts=mProducts;
+    public Adapter(List<Item> items) {
+        this.items=items;
+        this.context = context;
     }
 
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row,parent,false);
         ViewHolder vh = new ViewHolder(v);
@@ -29,14 +35,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
-        holder.mTitle.setText(mProducts.get(position).getTitle());
-        holder.mDescription.setText(mProducts.get(position).getDescription());
+    public void onBindViewHolder(Adapter.ViewHolder viewholder, int position) {
+        Item item = items.get(position);
+        String url = item.getLink();
+        viewholder.mTitle.setText(item.getTitle());
+        viewholder.mDescription.setText(item.getDescription());
+        Context context = viewholder.mLink.getContext();
+        Picasso.with(context).load(url).into(viewholder.mLink);
     }
 
     @Override
     public int getItemCount() {
-        return mProducts.size();
+        return items.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,8 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             super(itemView);
             mTitle=(TextView) itemView.findViewById(R.id.title);
             mDescription=(TextView)itemView.findViewById(R.id.description);
-//            mLink=(ImageView) itemView.findViewById(R.id.imageLink);
-
+            mLink=(ImageView) itemView.findViewById(R.id.imageLink);
         }
     }
 }

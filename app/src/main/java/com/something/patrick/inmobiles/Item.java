@@ -2,15 +2,16 @@ package com.something.patrick.inmobiles;
 
 /**
  * Created by patrick on 3/1/2018.
+ * Item model class
  */
 
-public class Product {
+public class Item {
     private int Id;
     private String link;
     private String title;
     private String description;
 
-    public Product(int id, String link, String title, String description) {
+    public Item(int id, String link, String title, String description) {
         Id = id;
         this.link = link;
         this.title = title;

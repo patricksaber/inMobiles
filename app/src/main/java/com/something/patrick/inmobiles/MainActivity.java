@@ -1,9 +1,14 @@
 package com.something.patrick.inmobiles;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,21 +42,49 @@ public class MainActivity extends AppCompatActivity {
 
         Api api = retrofit.create(Api.class);
 
-        Call<List<Item>> call = api.getProducts();
+        Call<List<Item>> call = api.getItems();
 
         call.enqueue(new Callback<List<Item>>() {
 
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                List<Item> products = response.body();
-                adapter = new Adapter(products);
-                recyclerView.setAdapter(adapter);
+                List<Item> remoteItems = response.body();
+                ContentValues values = new ContentValues();
+                for (int i = 0; i < remoteItems.size(); i++) {
+                    Item item = remoteItems.get(i);
+                    values.put(ItemsProvider.COL_TITLE, (item.getTitle()));
+                    values.put(ItemsProvider.COL_DESCRIPTION, (item.getDescription()));
+                    values.put(ItemsProvider.COL_LINK, (item.getLink()));
+                    Uri uri = getContentResolver().insert(ItemsProvider.CONTENT_URI, values);
+                    Toast.makeText(getBaseContext(), uri.toString() + " inserted!", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onFailure(Call<List<Item>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Attention: New remote items cannot be fetched: "+t.getMessage(),Toast.LENGTH_SHORT).show(); 
             }
+
         });
+
+        // Show all the items sorted by friend's name
+        String URL = "content://com.something.patrick.inmobiles.ItemsProvider/items";
+        Uri itemsUri = Uri.parse(URL);
+        Cursor c = getContentResolver().query(itemsUri, null, null, null, "title");
+        List<Item> items = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do{
+                Item item = new Item(
+                        c.getInt(c.getColumnIndex(ItemsProvider.COL_ID)),
+                        c.getString(c.getColumnIndex(ItemsProvider.COL_LINK)),
+                        c.getString(c.getColumnIndex(ItemsProvider.COL_TITLE)),
+                        c.getString(c.getColumnIndex(ItemsProvider.COL_DESCRIPTION))
+                );
+                items.add(item);
+            } while (c.moveToNext());
+        }
+
+        adapter = new Adapter(items);
+        recyclerView.setAdapter(adapter);
     }
 }

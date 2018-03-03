@@ -10,5 +10,5 @@ import retrofit2.http.GET;
 public interface Api {
     String BASE_URL ="http://test.inmobiles.net/testapi/api/Initialization/";
     @GET("SelectAllImages")
-    Call<List<Item>> getProducts();
+    Call<List<Item>> getItems();
 }

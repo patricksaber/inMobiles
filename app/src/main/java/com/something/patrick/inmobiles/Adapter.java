@@ -7,9 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 /**
@@ -18,11 +16,9 @@ import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private List<Item> items;
-    Context context;
 
     public Adapter(List<Item> items) {
-        this.items=items;
-        this.context = context;
+        this.items = items;
     }
 
     @Override

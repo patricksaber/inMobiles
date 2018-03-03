@@ -6,19 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by patrick on 3/2/2018.
  */
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    ArrayList<Product> mProducts;
+    private List<Product> mProducts;
 
-    public MyAdapter(ArrayList<Product> mProducts) {
+    public MyAdapter(List<Product> mProducts) {
         this.mProducts=mProducts;
     }
 

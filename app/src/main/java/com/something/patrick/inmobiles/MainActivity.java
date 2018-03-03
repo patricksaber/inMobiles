@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        listView=(ListView)findViewById(R.id.listView) ;
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -45,26 +44,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 List<Product> products = response.body();
-//                int productsNb = products.size();
-
-                ArrayList<Product> mProducts = new ArrayList<Product>();
-                for (int i = 0; i < products.size() ; i++) {
-                    Product product = new Product(
-                            products.get(i).getId(),
-                            products.get(i).getLink(),
-                            products.get(i).getTitle(),
-                            products.get(i).getDescription()
-                    );
-                    mProducts.add(product);
-                }
-//                ArrayList<Product> z = new ArrayList<Product>(products);
-
-//                for (int i = 0; i<productsNb; i++){
-//                    mProducts.add(products.get(i).getTitle());
-//                    mProducts.add(products.get(i).getDescription());
-//                    mProducts.add(products.get(i).getLink());
-//            }
-                mAdapter = new MyAdapter(mProducts);
+                mAdapter = new MyAdapter(products);
                 mRecyclerView.setAdapter(mAdapter);
             }
 

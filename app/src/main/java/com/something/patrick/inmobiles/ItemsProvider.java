@@ -63,7 +63,7 @@ public class ItemsProvider extends ContentProvider {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL
                     ("create table "+TABLE_NAME+
-                            "(Id INTEGER PRIMARY KEY,title TEXT,link TEXT,description TEXT)");
+                            "(Id INTEGER PRIMARY KEY ,title TEXT ,link TEXT,description TEXT)");
         }
 
         @Override
@@ -180,7 +180,7 @@ public class ItemsProvider extends ContentProvider {
             int count = 0;
             switch (uriMatcher.match(uri)) {
                 case ITEMS:
-                    count = db.update(TABLE_NAME, contentValues, selection, selectionArgs);
+                    count = db.update(TABLE_NAME , contentValues, selection, selectionArgs);
                     break;
 
                 case ITEM_ID:

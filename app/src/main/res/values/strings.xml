@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">inMobiles</string>
+    <string name="loadingBar">Loading....................</string>
 </resources>

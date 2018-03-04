@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         if (c.moveToFirst()) {
             do{
                 Item item = new Item(
-                        c.getInt(c.getColumnIndex(ItemsProvider.COL_ID )),
+                        c.getInt(c.getColumnIndex(ItemsProvider.COL_ID)),
                         c.getString(c.getColumnIndex(ItemsProvider.COL_LINK)),
                         c.getString(c.getColumnIndex(ItemsProvider.COL_TITLE)),
                         c.getString(c.getColumnIndex(ItemsProvider.COL_DESCRIPTION))

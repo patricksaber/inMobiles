@@ -47,9 +47,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public int getItemCount() {    // Return the size of  dataset
-
         return items.size();
-
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
